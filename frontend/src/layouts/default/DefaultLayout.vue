@@ -1,13 +1,12 @@
 <template>
   <VLayout>
-    <app-error-dialog :show="showErrorMessage" :message="errorMessage" @close="closeErrorDialog" />
-    <app-snackbar />
     <VApp :theme="theme">
       <app-nav-bar :theme="theme" @theme-click="onThemeClick"></app-nav-bar>
       <VMain>
         <RouterView />
       </VMain>
-      <app-footer :fixed="true" :user="loggedUser" />
+      <h1>aaaa</h1>
+      <music-player />
     </VApp>
   </VLayout>
 </template>
@@ -29,7 +28,7 @@ import { useAccountsStore } from "@/stores/accountsStore"
 import AppSnackbar from "@/components/AppSnackbar.vue"
 import AppErrorDialog from "@/components/AppErrorDialog.vue"
 import AppNavBar from "@/components/AppNavBar.vue"
-import AppFooter from "@/components/AppFooter.vue"
+import MusicPlayer from "@/components/MusicPlayer.vue"
 
 export default {
   name: "DefaultLayout",
@@ -37,7 +36,7 @@ export default {
     AppSnackbar,
     AppErrorDialog,
     AppNavBar,
-    AppFooter,
+    MusicPlayer,
   },
   setup() {
     const appStore = useAppStore()
