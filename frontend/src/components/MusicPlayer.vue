@@ -49,7 +49,7 @@ export default {
   const isPlaying = ref(false)
   const isMuted = ref(false)
   const selectedSpeed = ref(1)
-  const speeds = [-1, -0.5, 1, 1.5, 2]
+  const speeds = [1, 1.5, 2]
 
   const musicToggleIcon = computed(() => {
     return isPlaying.value ? "mdi-pause" : "mdi-play"
@@ -67,6 +67,7 @@ export default {
     const audio = audioTag.value
     audio.muted =!audio.muted
     isMuted.value = audio.muted
+    changeSpeed()
   }
   function toggleMusic () {
     const audio = audioTag.value
