@@ -56,6 +56,7 @@ LOCAL_APPS = [
     "audio-player.base",
     "audio-player.accounts",
     "audio-player.tasks",
+    "audio-player.musics"
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

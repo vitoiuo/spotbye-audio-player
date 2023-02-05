@@ -37,79 +37,78 @@
 </template>
 
 <script>
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
 export default {
   setup (_, context) {
-  const showVolumeController = ref(false)
-  const src = "@/assets/shakira.mp3"
-  const audioTag = ref(null)
-  const progressValue = ref(0)
-  const volume = ref(50)
-  const isPlaying = ref(false)
-  const isMuted = ref(false)
-  const selectedSpeed = ref(1)
-  const speeds = [1, 1.5, 2]
+    const showVolumeController = ref(false)
+    const src = "@/assets/shakira.mp3"
+    const audioTag = ref(null)
+    const progressValue = ref(0)
+    const volume = ref(50)
+    const isPlaying = ref(false)
+    const isMuted = ref(false)
+    const selectedSpeed = ref(1)
+    const speeds = [1, 1.5, 2]
 
-  const musicToggleIcon = computed(() => {
-    return isPlaying.value ? "mdi-pause" : "mdi-play"
-  })
+    const musicToggleIcon = computed(() => {
+      return isPlaying.value ? "mdi-pause" : "mdi-play"
+    })
 
-  const soundToggleIcon = computed(() => {
-    return isMuted.value ? "mdi-volume-off" : "mdi-volume-high"
-  })
+    const soundToggleIcon = computed(() => {
+      return isMuted.value ? "mdi-volume-off" : "mdi-volume-high"
+    })
 
-  function updateProgress () {
-    const audio = audioTag.value
-    progressValue.value = (audio.currentTime / audio.duration) * 100
-  }
-  function toggleMute () {
-    const audio = audioTag.value
-    audio.muted =!audio.muted
-    isMuted.value = audio.muted
-    changeSpeed()
-  }
-  function toggleMusic () {
-    const audio = audioTag.value
-    if (audio.paused) {
-      audio.play()
-      isPlaying.value = true
-    } else {
-      audio.pause()
-      isPlaying.value = false
+    function updateProgress () {
+      const audio = audioTag.value
+      progressValue.value = (audio.currentTime / audio.duration) * 100
     }
-  }
-  function modifyVolume (value) {
-    const audio = audioTag.value
-    if (volume.value === 0) return audio.muted = true
-    audio.volume = volume.value / 100
-  }
-  function changeSpeed () {
-    const audio = audioTag.value
-    audio.playbackRate = selectedSpeed.value
-  }
+    function toggleMute () {
+      const audio = audioTag.value
+      audio.muted =!audio.muted
+      isMuted.value = audio.muted
+    }
+    function toggleMusic () {
+      const audio = audioTag.value
+      if (audio.paused) {
+        audio.play()
+        isPlaying.value = true
+      } else {
+        audio.pause()
+        isPlaying.value = false
+      }
+    }
+    function modifyVolume () {
+      const audio = audioTag.value
+      if (volume.value === 0) return audio.muted = true
+      audio.volume = volume.value / 100
+    }
+    function changeSpeed () {
+      const audio = audioTag.value
+      audio.playbackRate = selectedSpeed.value
+    }
 
-  onMounted(() => {
-    toggleMusic()
-  })
+    onMounted(() => {
+      toggleMusic()
+    })
 
-  return {
-        showVolumeController,
-        src,
-        audioTag,
-        progressValue,
-        volume,
-        isPlaying,
-        isMuted,
-        musicToggleIcon,
-        soundToggleIcon,
-        selectedSpeed,
-        speeds,
-        updateProgress,
-        toggleMute,
-        toggleMusic,
-        modifyVolume,
-        changeSpeed,
+    return {
+          showVolumeController,
+          src,
+          audioTag,
+          progressValue,
+          volume,
+          isPlaying,
+          isMuted,
+          musicToggleIcon,
+          soundToggleIcon,
+          selectedSpeed,
+          speeds,
+          updateProgress,
+          toggleMute,
+          toggleMusic,
+          modifyVolume,
+          changeSpeed,
       }
   }
 }
