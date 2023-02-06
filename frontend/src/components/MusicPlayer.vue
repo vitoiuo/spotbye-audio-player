@@ -1,12 +1,12 @@
 <template>
-  <v-toolbar them="dark" height="100" class="pa-5">
+  <v-app-bar app class="pa-10" location="bottom">
     <v-row class="d-flex align-center">
       <v-col cols="5" class="d-flex align-center">
         <v-avatar
-        color="primary"
-        size="100"
-        class="rotating"
-        :class="{'paused':!isPlaying}"
+          color="primary"
+          size="100"
+          class="rotating"
+          :class="{'paused':!isPlaying}"
       >
         <img src="https://randomuser.me/api/portraits/men/82.jpg" />
       </v-avatar>
@@ -19,24 +19,29 @@
       </div>
       </v-col>
 
-      <v-col cols="5" class="music-controllers">
+      <v-col cols="4" class="music-controllers">
         <v-btn icon><v-icon>mdi-skip-previous</v-icon></v-btn>
         <v-btn icon @click="toggleMusic"><v-icon>{{ musicToggleIcon }}</v-icon></v-btn>
         <v-btn icon><v-icon>mdi-skip-next</v-icon></v-btn>
       </v-col>
 
-      <v-col cols="2" class="music-controllers">
-        <v-select v-model="selectedSpeed" :items="speeds" @input="changeSpeed"  :menu-props="{ openOnHover: true }" />
+      <v-col cols="3" class="music-controllers">
+        <v-select 
+          v-model="selectedSpeed"
+          :items="speeds"
+          @update:modelValue="changeSpeed"
+          :menu-props="{ openOnHover: true }"
+        />
         <v-btn icon @click="toggleMute"><v-icon >{{ soundToggleIcon }}</v-icon></v-btn>
-        <v-slider v-model="volume" thumb-label="always" step="1" @change="modifyVolume"></v-slider>
+        <v-slider v-model="volume" thumb-label="always" step="1" @update:modelValue="modifyVolume"></v-slider>
       </v-col>
 
-      <audio ref="audioTag" @timeUpdate="updateProgress">
+      <audio  ref="audioTag" @timeUpdate="updateProgress">
           <source src="@/assets/shakira.mp3" type="audio/mpeg" @ended="isPlaying = false" loop>
           Your browser does not support the audio element.
         </audio>
     </v-row>
-</v-toolbar>
+</v-app-bar>
 </template>
 
 <script>
@@ -51,20 +56,19 @@ export default {
     const isPlaying = ref(false)
     const isMuted = ref(false)
     const selectedSpeed = ref(1)
-    const speeds = [1, 1.5, 2]
+    const speeds = [2, 1.5, 1,]
 
     const musicToggleIcon = computed(() => {
       return isPlaying.value ? "mdi-pause" : "mdi-play"
     })
 
     const soundToggleIcon = computed(() => {
-      return isMuted.value ? "mdi-volume-off" : "mdi-volume-high"
+      return (isMuted.value || volume == 0) ? "mdi-volume-off" : "mdi-volume-high"
     })
 
     function updateProgress () {
       const audio = audioTag.value
       progressValue.value = (audio.currentTime / audio.duration) * 100
-      console.log(progressValue.value)
     }
     function toggleMute () {
       const audio = audioTag.value
@@ -83,7 +87,6 @@ export default {
     }
     function modifyVolume () {
       const audio = audioTag.value
-      if (volume.value === 0) return audio.muted = true
       audio.volume = volume.value / 100
     }
     function changeSpeed () {
@@ -112,7 +115,7 @@ export default {
           modifyVolume,
           changeSpeed,
       }
-  }
+    },
 }
 </script>
 

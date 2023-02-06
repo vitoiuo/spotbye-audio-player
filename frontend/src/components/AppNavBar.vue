@@ -2,8 +2,7 @@
   <v-app-bar>
     <v-app-bar-title>{{ title }}</v-app-bar-title>
     <template #append>
-      <v-btn icon="mdi-heart" :to="{ name: 'base-home' }"></v-btn>
-      <v-btn icon="mdi-magnify"></v-btn>
+      <music-form />
       <v-btn
         :prepend-icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
         @click.stop="themeClick"></v-btn>
@@ -21,12 +20,17 @@
 </template>
 
 <script>
+import MusicForm from "@/components/MusicForm.vue"
+
 export default {
+  components: {
+    MusicForm
+  },
   props: {
     title: {
       type: String,
       required: false,
-      default: "MyApp",
+      default: "SpotBye",
     },
     theme: {
       type: String,
