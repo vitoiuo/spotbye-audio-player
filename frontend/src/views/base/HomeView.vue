@@ -1,9 +1,6 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="d-flex align-center text-center fill-height">
-      <v-container fluid>
-        <music-player />
-      </v-container>
       <v-container>
         <v-row>
           <v-col v-for="music in musics" :key="music.id" cols="12" md="4">
@@ -23,14 +20,13 @@
 </template>
 
 <script>
-import MusicPlayer from "@/components/MusicPlayer.vue"
 import MusicForm from "@/components/MusicForm.vue"
 import { mapState } from "pinia"
 import { useAccountsStore } from "@/stores/accountsStore"
 
 export default {
+  name: 'HomeView',
   components: {
-    MusicPlayer,
     MusicForm,
   },
   setup () {

@@ -8,3 +8,5 @@ flake8==5.0.4
 #Testes
 pytest==7.1.3
 pytest-django==4.5.2
+
+django-extensions==3.2.1

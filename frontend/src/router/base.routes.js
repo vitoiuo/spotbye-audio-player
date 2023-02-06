@@ -1,12 +1,12 @@
 // Composables
-import EmptyLayout from "@/layouts/default/EmptyLayout.vue"
+import DefaultLayout from "@/layouts/default/DefaultLayout.vue"
 import HomeView from "@/views/base/HomeView.vue"
 import GetStartedView from "@/views/base/GetStartedView.vue"
 
 export default [
   {
     path: "/",
-    component: EmptyLayout,
+    component: DefaultLayout,
     children: [
       {
         path: "",

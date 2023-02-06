@@ -1,39 +1,42 @@
 <template>
-  <div>
-    <v-row class="player-bar">
-      <v-avatar
+  <v-toolbar them="dark" height="100" class="pa-5">
+    <v-row class="d-flex align-center">
+      <v-col cols="5" class="d-flex align-center">
+        <v-avatar
         color="primary"
         size="100"
         class="rotating"
         :class="{'paused':!isPlaying}"
       >
-      <img src="https://randomuser.me/api/portraits/men/82.jpg" />
-    </v-avatar>
-        <audio ref="audioTag" @timeUpdate="updateProgress" @ended="isPlaying = false" loop>
-          <source src="@/assets/shakira.mp3" type="audio/mpeg">
+        <img src="https://randomuser.me/api/portraits/men/82.jpg" />
+      </v-avatar>
+      <div class="d-flex flex-column ml-4">
+        <span>
+          <v-icon large class="mr-2">mdi-music</v-icon>
+          <span class="title">Shakira shakira</span>
+        </span>
+        <span class="artist">Shakira</span>
+      </div>
+      </v-col>
+
+      <v-col cols="5" class="music-controllers">
+        <v-btn icon><v-icon>mdi-skip-previous</v-icon></v-btn>
+        <v-btn icon @click="toggleMusic"><v-icon>{{ musicToggleIcon }}</v-icon></v-btn>
+        <v-btn icon><v-icon>mdi-skip-next</v-icon></v-btn>
+      </v-col>
+
+      <v-col cols="2" class="music-controllers">
+        <v-select v-model="selectedSpeed" :items="speeds" @input="changeSpeed"  :menu-props="{ openOnHover: true }" />
+        <v-btn icon @click="toggleMute"><v-icon >{{ soundToggleIcon }}</v-icon></v-btn>
+        <v-slider v-model="volume" thumb-label="always" step="1" @change="modifyVolume"></v-slider>
+      </v-col>
+
+      <audio ref="audioTag" @timeUpdate="updateProgress">
+          <source src="@/assets/shakira.mp3" type="audio/mpeg" @ended="isPlaying = false" loop>
           Your browser does not support the audio element.
         </audio>
-      <v-col cols="3">
-        <v-icon large class="mr-2">mdi-music</v-icon>
-        <span class="title">Shakira shakira</span>
-      </v-col>
-      <v-col cols="5">
-        <span class="artist">Shakira</span>
-      </v-col>
-      <v-col cols="4" class="music-controllers">
-        <v-btn icon><v-icon>mdi-skip-backward</v-icon></v-btn>
-        <v-btn icon @click="toggleMusic"><v-icon>{{ musicToggleIcon }}</v-icon></v-btn>
-        <v-btn icon><v-icon>mdi-skip-forward</v-icon></v-btn>
-      </v-col>
-      <v-col cols="1">
-        <v-select v-model="selectedSpeed" :items="speeds" @input="changeSpeed"  :menu-props="{ openOnHover: true }"/>
-      </v-col>
-      <v-col cols="5" class="music-controllers">
-        <v-btn icon @mouseenter="showVolumeController = !showVolumeController" @click="toggleMute"><v-icon >{{ soundToggleIcon }}</v-icon></v-btn>
-        <v-slider v-if="showVolumeController" v-model="volume" thumb-label="always" step="1" @change="modifyVolume"></v-slider>
-      </v-col>
     </v-row>
-</div>
+</v-toolbar>
 </template>
 
 <script>
@@ -41,7 +44,6 @@ import { ref, onMounted, computed } from 'vue'
 
 export default {
   setup (_, context) {
-    const showVolumeController = ref(false)
     const src = "@/assets/shakira.mp3"
     const audioTag = ref(null)
     const progressValue = ref(0)
@@ -62,6 +64,7 @@ export default {
     function updateProgress () {
       const audio = audioTag.value
       progressValue.value = (audio.currentTime / audio.duration) * 100
+      console.log(progressValue.value)
     }
     function toggleMute () {
       const audio = audioTag.value
@@ -93,7 +96,6 @@ export default {
     })
 
     return {
-          showVolumeController,
           src,
           audioTag,
           progressValue,
@@ -115,6 +117,9 @@ export default {
 </script>
 
 <style>
+  .player-bar {
+    border: 1px solid darkgray;
+  }
   .music-controllers {
     display: flex;
     gap: 8px;

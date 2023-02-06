@@ -1,12 +1,13 @@
 <template>
   <VLayout>
+    <app-error-dialog :show="showErrorMessage" :message="errorMessage" @close="closeErrorDialog" />
+    <app-snackbar />
     <VApp :theme="theme">
-      <app-nav-bar :theme="theme" @theme-click="onThemeClick"></app-nav-bar>
+      <app-nav-bar :theme="theme" @theme-click="onThemeClick" :title="Spotbye"></app-nav-bar>
       <VMain>
         <RouterView />
       </VMain>
-      <h1>aaaa</h1>
-      <music-player />
+      <music-player class="p-5"></music-player>
     </VApp>
   </VLayout>
 </template>
