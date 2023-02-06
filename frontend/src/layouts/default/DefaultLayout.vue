@@ -4,16 +4,16 @@
     <app-snackbar />
     <v-app :theme="theme">
       <app-nav-bar :theme="theme" @theme-click="onThemeClick"></app-nav-bar>
-      <v-content>
         <RouterView />
-        <music-player class="p-5"></music-player>
-      </v-content>
+        <music-player v-if="musicRow.length" class="p-5" :songs="musicRow"></music-player>
     </v-app>
   </VLayout>
 </template>
 
 <script setup>
 import { ref } from "vue"
+import { mapState } from "pinia"
+import { useMusicStore } from "@/stores/musicStore"
 
 const theme = ref("dark")
 
@@ -46,6 +46,7 @@ export default {
   computed: {
     ...mapState(useAppStore, ["errorMessage", "showErrorMessage"]),
     ...mapState(useAccountsStore, ["loggedUser"]),
+    ...mapState(useMusicStore, ["musicRow"]),
   },
   methods: {
     closeErrorDialog() {

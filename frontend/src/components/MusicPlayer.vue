@@ -8,7 +8,7 @@
           class="rotating"
           :class="{'paused':!isPlaying}"
       >
-        <img src="https://randomuser.me/api/portraits/men/82.jpg" />
+        <img :src="currentSong.cover" />
       </v-avatar>
       <div class="d-flex flex-column ml-4">
         <span>
@@ -20,9 +20,11 @@
       </v-col>
 
       <v-col cols="4" class="music-controllers">
+        <v-btn icon @click="rewindTrack"><v-icon>mdi-rewind-10</v-icon></v-btn>
         <v-btn icon><v-icon>mdi-skip-previous</v-icon></v-btn>
         <v-btn icon @click="toggleMusic"><v-icon>{{ musicToggleIcon }}</v-icon></v-btn>
-        <v-btn icon><v-icon>mdi-skip-next</v-icon></v-btn>
+        <v-btn icon @click="handleSongsQueue"><v-icon>mdi-skip-next</v-icon></v-btn>
+        <v-btn icon @click="forwardTrack"><v-icon>mdi-fast-forward-10</v-icon></v-btn>
       </v-col>
 
       <v-col cols="3" class="music-controllers">
@@ -36,10 +38,10 @@
         <v-slider v-model="volume" thumb-label="always" step="1" @update:modelValue="modifyVolume"></v-slider>
       </v-col>
 
-      <audio  ref="audioTag" @timeUpdate="updateProgress">
-          <source src="@/assets/shakira.mp3" type="audio/mpeg" @ended="isPlaying = false" loop>
-          Your browser does not support the audio element.
-        </audio>
+      <audio ref="audioTag" @timeUpdate="updateProgress" @ended="handleSongsQueue">
+        <source type="audio/mpeg" >
+        Your browser does not support the audio element.
+      </audio>
     </v-row>
 </v-app-bar>
 </template>
@@ -48,22 +50,33 @@
 import { ref, onMounted, computed } from 'vue'
 
 export default {
-  setup (_, context) {
-    const src = "@/assets/shakira.mp3"
+  props: {
+    songs: {
+      type: Array,
+      default: []
+    }
+  },
+  setup (props, context) {
+    const songs = ref(props.songs)
+    const queuePosition = ref(0)
     const audioTag = ref(null)
     const progressValue = ref(0)
     const volume = ref(50)
     const isPlaying = ref(false)
     const isMuted = ref(false)
     const selectedSpeed = ref(1)
-    const speeds = [2, 1.5, 1,]
+    const speeds = [2, 1.5, 1]
 
     const musicToggleIcon = computed(() => {
       return isPlaying.value ? "mdi-pause" : "mdi-play"
     })
 
     const soundToggleIcon = computed(() => {
-      return (isMuted.value || volume == 0) ? "mdi-volume-off" : "mdi-volume-high"
+      return (isMuted.value || volume.value === 0) ? "mdi-volume-off" : "mdi-volume-high"
+    })
+
+    const currentSong = computed(() => {
+      return songs.value[queuePosition.value]
     })
 
     function updateProgress () {
@@ -93,13 +106,35 @@ export default {
       const audio = audioTag.value
       audio.playbackRate = selectedSpeed.value
     }
+    function handleSongsQueue () {
+      const audio = audioTag.value
+      queuePosition.value+=1
+      if (currentSong.value) {
+        audio.src = currentSong.value.file_path
+        toggleMusic()
+        return
+      }
+      queuePosition.value-=1
+      isPlaying.value = false
+
+    }
+    function forwardTrack () {
+      const audio = audioTag.value
+      audio.currentTime+=10
+    }
+
+    function rewindTrack () {
+      const audio = audioTag.value
+      audio.currentTime-=10
+    }
 
     onMounted(() => {
+      const audio = audioTag.value
+      audio.src = currentSong.value.file_path
       toggleMusic()
     })
 
     return {
-          src,
           audioTag,
           progressValue,
           volume,
@@ -109,11 +144,17 @@ export default {
           soundToggleIcon,
           selectedSpeed,
           speeds,
+          songs,
+          queuePosition,
+          currentSong,
           updateProgress,
           toggleMute,
           toggleMusic,
           modifyVolume,
           changeSpeed,
+          handleSongsQueue,
+          forwardTrack,
+          rewindTrack,
       }
     },
 }

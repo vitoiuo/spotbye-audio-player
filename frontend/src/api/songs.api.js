@@ -2,10 +2,10 @@ import api from "./config.js"
 import apiHelpers from "./helpers.js"
 
 export default {
-    getsongs: () => {
+    getSongs: () => {
       return new Promise((resolve, reject) => {
         api
-          .get("/api/songs/listSongs")
+          .get("/api/musics/listSongs")
           .then((response) => {
             return resolve(response.data)
           })

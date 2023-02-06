@@ -6,7 +6,7 @@ def add_song(new_song):
         title=new_song.title,
         artist=new_song.artist,
         cover=new_song.cover,
-        file=new_song.file
+        file_path=new_song.file
     )
     song.save()
     return song.to_dict_json()
