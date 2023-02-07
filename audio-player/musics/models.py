@@ -1,16 +1,12 @@
 from django.core.files.storage import FileSystemStorage
 from django.db import models
 
-my_store = FileSystemStorage(
-    location="/home/victorbarreto/Documentos/busertech-tony/audio-player/songs"
-)
-
 
 class Song(models.Model):
     title = models.CharField(max_length=100)
     artist = models.CharField(max_length=100)
     cover = models.URLField(max_length=200)
-    file = models.FileField(null=True, blank=True, storage=my_store)
+    file = models.FileField(null=True, blank=True)
 
     def to_dict_json(self):
         return {

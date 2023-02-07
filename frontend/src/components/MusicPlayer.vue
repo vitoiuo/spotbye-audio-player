@@ -114,7 +114,7 @@ export default {
       if (!hasNextSong.value && value === 1) return
       queuePosition.value+=value
       if (currentSong.value) {
-        audio.src = currentSong.value.file_path
+        audio.src = 'home'+currentSong.value.path
         toggleMusic()
       }
     }
@@ -130,7 +130,7 @@ export default {
 
     onMounted(() => {
       const audio = audioTag.value
-      audio.src = currentSong.value.file_path
+      audio.src = 'home'+currentSong.value.path
       toggleMusic()
     })
 

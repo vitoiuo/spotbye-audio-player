@@ -10,6 +10,7 @@ def add_song(request):
     song_qrdct.update(request.POST)
     song_qrdct.update(request.FILES)
     song = song_svc.add_song(song_qrdct)
+
     return JsonResponse(song)
 
 

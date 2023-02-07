@@ -3,7 +3,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 # from .models import Song
 
 
-def test_list_songs_retur_songs_list(client, db):
+def test_list_songs_retur_songs_listl(client, db):
     # Song.ocreate(
     #     title = "Tonylamkins e seus teclados"
     #     artist = models.CharField(max_length=100)
