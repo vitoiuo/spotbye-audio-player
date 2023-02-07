@@ -19,7 +19,7 @@
 <script>
 import { useMusicStore } from "@/stores/musicStore"
 import { ref, onMounted } from 'vue'
-import songsApi from "@/api/songs.api"
+import songsApi from "@/api/songs.api.js"
 
 
 export default {

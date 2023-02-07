@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app class="pa-10" location="bottom">
+  <v-app-bar class="pa-10">
     <v-row class="d-flex align-center">
       <v-col cols="5" class="d-flex align-center">
         <v-avatar
@@ -7,26 +7,26 @@
           size="100"
           class="rotating"
           :class="{'paused':!isPlaying}"
+          contain
       >
         <img :src="currentSong.cover" />
       </v-avatar>
       <div class="d-flex flex-column ml-4">
         <span>
           <v-icon large class="mr-2">mdi-music</v-icon>
-          <span class="title">Shakira shakira</span>
+          <span class="title">{{ currentSong.name }}</span>
         </span>
-        <span class="artist">Shakira</span>
+        <span class="artist">{{ currentSong.artist }}</span>
       </div>
       </v-col>
 
       <v-col cols="4" class="music-controllers">
         <v-btn icon @click="rewindTrack"><v-icon>mdi-rewind-10</v-icon></v-btn>
-        <v-btn icon><v-icon>mdi-skip-previous</v-icon></v-btn>
+        <v-btn icon @click="handleSongsQueue(-1)"><v-icon>mdi-skip-previous</v-icon></v-btn>
         <v-btn icon @click="toggleMusic"><v-icon>{{ musicToggleIcon }}</v-icon></v-btn>
-        <v-btn icon @click="handleSongsQueue"><v-icon>mdi-skip-next</v-icon></v-btn>
+        <v-btn icon @click="handleSongsQueue(1)"><v-icon>mdi-skip-next</v-icon></v-btn>
         <v-btn icon @click="forwardTrack"><v-icon>mdi-fast-forward-10</v-icon></v-btn>
       </v-col>
-
       <v-col cols="3" class="music-controllers">
         <v-select 
           v-model="selectedSpeed"
@@ -34,7 +34,9 @@
           @update:modelValue="changeSpeed"
           :menu-props="{ openOnHover: true }"
         />
-        <v-btn icon @click="toggleMute"><v-icon >{{ soundToggleIcon }}</v-icon></v-btn>
+        <v-btn icon @click="toggleMute">
+          <v-icon>{{ soundToggleIcon }}</v-icon>
+        </v-btn>
         <v-slider v-model="volume" thumb-label="always" step="1" @update:modelValue="modifyVolume"></v-slider>
       </v-col>
 
@@ -70,13 +72,14 @@ export default {
     const musicToggleIcon = computed(() => {
       return isPlaying.value ? "mdi-pause" : "mdi-play"
     })
-
     const soundToggleIcon = computed(() => {
       return (isMuted.value || volume.value === 0) ? "mdi-volume-off" : "mdi-volume-high"
     })
-
     const currentSong = computed(() => {
       return songs.value[queuePosition.value]
+    })
+    const hasNextSong = computed(() => {
+      return queuePosition.value + 1 < songs.value.length
     })
 
     function updateProgress () {
@@ -106,17 +109,14 @@ export default {
       const audio = audioTag.value
       audio.playbackRate = selectedSpeed.value
     }
-    function handleSongsQueue () {
+    function handleSongsQueue (value) {
       const audio = audioTag.value
-      queuePosition.value+=1
+      if (!hasNextSong.value && value === 1) return
+      queuePosition.value+=value
       if (currentSong.value) {
         audio.src = currentSong.value.file_path
         toggleMusic()
-        return
       }
-      queuePosition.value-=1
-      isPlaying.value = false
-
     }
     function forwardTrack () {
       const audio = audioTag.value
@@ -147,6 +147,7 @@ export default {
           songs,
           queuePosition,
           currentSong,
+          hasNextSong,
           updateProgress,
           toggleMute,
           toggleMusic,

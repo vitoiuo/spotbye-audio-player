@@ -5,7 +5,7 @@ export default {
     getSongs: () => {
       return new Promise((resolve, reject) => {
         api
-          .get("/api/musics/listSongs")
+          .get("/api/musics/list_songs")
           .then((response) => {
             return resolve(response.data)
           })
@@ -17,7 +17,7 @@ export default {
     addNewsong: (data) => {
       return new Promise((resolve, reject) => {
         api
-          .post("/api/songs/addSong", apiHelpers.dataToForm(data))
+          .post("/api/musics/add_song", apiHelpers.dataToForm(data))
           .then((response) => {
             return resolve(response.data)
           })

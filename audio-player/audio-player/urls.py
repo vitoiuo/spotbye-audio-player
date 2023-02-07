@@ -22,5 +22,5 @@ urlpatterns = [
     path("api/", include("audio-player.base.urls")),
     path("api/accounts/", include("audio-player.accounts.urls")),
     path("api/tasks/", include("audio-player.tasks.urls")),
-    path("api/musics", include("audio-player.musics.urls"))
+    path("api/musics/", include("audio-player.musics.urls"))
 ]

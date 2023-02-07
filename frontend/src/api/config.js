@@ -8,6 +8,9 @@ const api = axios.create({
   xsrfHeaderName: "X-CSRFToken",
   xsrfCookieName: "csrftoken",
   withCredentials: true,
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
 })
 
 export function responseSuccess(response) {

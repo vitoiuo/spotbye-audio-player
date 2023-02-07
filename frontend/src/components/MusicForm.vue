@@ -1,5 +1,3 @@
-Here's an example of how to implement a popup with a form to register musics with a file input in Vuetify 3:
-
 <template>
   <div>
     <v-btn @click="showPopup" color="green">Add Music</v-btn>
@@ -10,13 +8,7 @@ Here's an example of how to implement a popup with a form to register musics wit
           <v-form ref="form" v-model="valid">
             <v-text-field prepend-icon="mdi-format-title" label="Title" v-model="title" :rules="titleRules" />
             <v-text-field prepend-icon="mdi-account-music" label="Artist" v-model="artist" :rules="artistRules" />
-            <v-file-input
-                :rules="imageRules"
-                accept="image/png, image/jpeg, image/bmp"
-                placeholder="Pick an image"
-                prepend-icon="mdi-image-area"
-                label="Music cover"
-            ></v-file-input>
+            <v-text-field prepend-icon="mdi-image-area" label="Music cover" type="url" v-model="musicCover" :rules="imageRules"/>
             <v-file-input prepend-icon="mdi-soundcloud" label="Music" v-model="music" accept="audio/*" :rules="musicRules" />
           </v-form>
         </v-card-text>
@@ -30,6 +22,8 @@ Here's an example of how to implement a popup with a form to register musics wit
 </template>
 <script>
 import { ref } from 'vue'
+import { useAppStore } from "@/stores/appStore"
+import songsApi from "@/api/songs.api.js"
 
 export default {
   setup () {
@@ -38,7 +32,9 @@ export default {
     const valid = ref(false)
     const title = ref('')
     const artist = ref('')
+    const musicCover = ref('')
     const music = ref(null)
+    const appStore = useAppStore()
 
     const titleRules = [
       v => !!v || 'Title is required',
@@ -49,7 +45,7 @@ export default {
       v => (v && v.length <= 25) || 'Artist must be less than 25 characters'
     ]
     const imageRules = [
-        value => !value || value.size < 2000000 || 'Cover size should be less than 2 MB!',
+      v => !!v || 'Music cover is required',
     ]
     const musicRules = [
       v => !!v || 'Music is required'
@@ -58,8 +54,16 @@ export default {
     function showPopup () {
         showForm.value = true
     }
-    function submit () {
+    async function submit () {
       if (valid.value) {
+        const newSong = {
+          title: title.value,
+          artist: artist.value,
+          cover: musicCover.value,
+          file: music.value[0]
+        }
+
+        await songsApi.addNewsong(newSong)
         showForm.value = false
         cleanForm()
       }
@@ -72,11 +76,13 @@ export default {
     }
 
     return {
+      appStore,
       showForm,
       form,
       valid,
       title,
       artist,
+      musicCover,
       music,
       titleRules,
       artistRules,
