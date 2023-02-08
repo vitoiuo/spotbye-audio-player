@@ -1,16 +1,16 @@
 <template>
   <v-row>
     <v-col @click="musicChoosed(music)" v-for="music in apiMusics.songs" :key="music.id" cols="12" md="4">
-      <v-card 
-      class="shadow-on-hover pa-2" 
-      @mouseover="hover = true"
-      @mouseout="hover = false">
-      <v-img
-      :src="music.cover"
-      aspect-ratio="2"
-            ></v-img>
-            <v-card-title>{{ music.title }}</v-card-title>
-            <v-card-subtitle>{{ music.artist }}</v-card-subtitle>
+        <v-card 
+        class="shadow-on-hover pa-2" 
+        @mouseover="hover = true"
+        @mouseout="hover = false">
+          <v-img
+          :src="music.cover"
+          aspect-ratio="2"
+          ></v-img>
+          <v-card-title>{{ music.title }}</v-card-title>
+          <v-card-subtitle>{{ music.artist }}</v-card-subtitle>
         </v-card>
       </v-col>
     </v-row>

@@ -5,7 +5,7 @@
     <v-app :theme="theme">
       <app-nav-bar :theme="theme" @theme-click="onThemeClick"></app-nav-bar>
         <RouterView />
-        <music-player v-if="musicRow.length" class="p-5" :songs="musicRow"></music-player>
+        <music-player v-if="musicRow.length" class="p-5" :songs="musicRow" @close-player="clearSongs"></music-player>
     </v-app>
   </VLayout>
 </template>
@@ -41,7 +41,8 @@ export default {
   },
   setup() {
     const appStore = useAppStore()
-    return { appStore }
+    const musicStore = useMusicStore()
+    return { appStore, musicStore }
   },
   computed: {
     ...mapState(useAppStore, ["errorMessage", "showErrorMessage"]),
@@ -52,6 +53,9 @@ export default {
     closeErrorDialog() {
       this.appStore.setShowErrorMessage(null)
     },
+    clearSongs () {
+      this.musicStore.clearRow()
+    }
   },
 }
 </script>

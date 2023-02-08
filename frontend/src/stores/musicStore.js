@@ -7,6 +7,9 @@ export const useMusicStore = defineStore("musicStore", {
   actions: {
     setMusicInRow (newMusic) {
         this.musicRow.push(newMusic)
+    },
+    clearRow () {
+      this.musicRow = []
     }
   },
 })

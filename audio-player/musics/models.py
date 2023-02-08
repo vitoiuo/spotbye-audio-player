@@ -1,4 +1,3 @@
-from django.core.files.storage import FileSystemStorage
 from django.db import models
 
 
@@ -11,9 +10,10 @@ class Song(models.Model):
     def to_dict_json(self):
         return {
             "id": self.id,
+            "title": self.title,
             "artist": self.artist,
             "cover": self.cover,
-            "path": self.file.path,
+            "file": self.file.name,
         }
 
 

@@ -1,50 +1,50 @@
 <template>
   <v-app-bar class="pa-10">
-    <v-row class="d-flex align-center">
-      <v-col cols="5" class="d-flex align-center">
-        <v-avatar
+    <v-avatar
           color="primary"
           size="100"
           class="rotating"
           :class="{'paused':!isPlaying}"
-          contain
+          tile
       >
         <img :src="currentSong.cover" />
       </v-avatar>
       <div class="d-flex flex-column ml-4">
         <span>
-          <v-icon large class="mr-2">mdi-music</v-icon>
-          <span class="title">{{ currentSong.name }}</span>
+          <span class="title">{{ currentSong.title }}</span>
         </span>
         <span class="artist">{{ currentSong.artist }}</span>
       </div>
+    <v-row class="d-flex justify-center align-center">
+      <v-col cols="6">
+        <div>
+          <v-btn icon @click="handleSongsQueue(-1)"><v-icon>mdi-skip-previous</v-icon></v-btn>
+          <v-btn icon @click="toggleMusic"><v-icon>{{ musicToggleIcon }}</v-icon></v-btn>
+          <v-btn icon @click="handleSongsQueue(1)"><v-icon>mdi-skip-next</v-icon></v-btn>
+        </div>
       </v-col>
-
-      <v-col cols="4" class="music-controllers">
-        <v-btn icon @click="rewindTrack"><v-icon>mdi-rewind-10</v-icon></v-btn>
-        <v-btn icon @click="handleSongsQueue(-1)"><v-icon>mdi-skip-previous</v-icon></v-btn>
-        <v-btn icon @click="toggleMusic"><v-icon>{{ musicToggleIcon }}</v-icon></v-btn>
-        <v-btn icon @click="handleSongsQueue(1)"><v-icon>mdi-skip-next</v-icon></v-btn>
-        <v-btn icon @click="forwardTrack"><v-icon>mdi-fast-forward-10</v-icon></v-btn>
-      </v-col>
-      <v-col cols="3" class="music-controllers">
+      <v-col cols="6" class="music-controllers">
         <v-select 
           v-model="selectedSpeed"
           :items="speeds"
           @update:modelValue="changeSpeed"
           :menu-props="{ openOnHover: true }"
         />
+        <v-btn icon @click="loop = !loop" :class='{"looping-btn":loop}'><v-icon>mdi-repeat</v-icon></v-btn>
         <v-btn icon @click="toggleMute">
           <v-icon>{{ soundToggleIcon }}</v-icon>
         </v-btn>
-        <v-slider v-model="volume" thumb-label="always" step="1" @update:modelValue="modifyVolume"></v-slider>
+        <v-slider v-model="volume" @update:modelValue="modifyVolume"></v-slider>
       </v-col>
 
-      <audio ref="audioTag" @timeUpdate="updateProgress" @ended="handleSongsQueue">
+       <v-slider color="green" @update:modelValue="controlProgress" :model-value="progressValue"/>
+
+      <audio ref="audioTag" @ended="handleSongsQueue(1)" :loop="loop" @timeupdate="updateProgress">
         <source type="audio/mpeg" >
         Your browser does not support the audio element.
       </audio>
     </v-row>
+    
 </v-app-bar>
 </template>
 
@@ -68,6 +68,7 @@ export default {
     const isMuted = ref(false)
     const selectedSpeed = ref(1)
     const speeds = [2, 1.5, 1]
+    const loop = ref(false)
 
     const musicToggleIcon = computed(() => {
       return isPlaying.value ? "mdi-pause" : "mdi-play"
@@ -82,9 +83,13 @@ export default {
       return queuePosition.value + 1 < songs.value.length
     })
 
+    function controlProgress(newValue) {
+      const audio = audioTag.value
+      audio.currentTime = newValue / 100 * audio.duration
+    }
     function updateProgress () {
       const audio = audioTag.value
-      progressValue.value = (audio.currentTime / audio.duration) * 100
+      progressValue.value = audio.currentTime / audio.duration * 100
     }
     function toggleMute () {
       const audio = audioTag.value
@@ -111,51 +116,42 @@ export default {
     }
     function handleSongsQueue (value) {
       const audio = audioTag.value
-      if (!hasNextSong.value && value === 1) return
+      if (value === 1) context.emit("close-player")
+      if (!hasNextSong.value) return isPlaying.value = false
       queuePosition.value+=value
       if (currentSong.value) {
-        audio.src = 'home'+currentSong.value.path
+        audio.src = '/media/'+currentSong.value.file
         toggleMusic()
       }
     }
-    function forwardTrack () {
-      const audio = audioTag.value
-      audio.currentTime+=10
-    }
-
-    function rewindTrack () {
-      const audio = audioTag.value
-      audio.currentTime-=10
-    }
-
     onMounted(() => {
       const audio = audioTag.value
-      audio.src = 'home'+currentSong.value.path
+      audio.src = '/media/'+currentSong.value.file
       toggleMusic()
     })
 
     return {
           audioTag,
-          progressValue,
           volume,
           isPlaying,
           isMuted,
+          progressValue,
           musicToggleIcon,
           soundToggleIcon,
           selectedSpeed,
           speeds,
+          loop,
           songs,
           queuePosition,
           currentSong,
           hasNextSong,
-          updateProgress,
           toggleMute,
           toggleMusic,
           modifyVolume,
           changeSpeed,
+          controlProgress,
+          updateProgress,
           handleSongsQueue,
-          forwardTrack,
-          rewindTrack,
       }
     },
 }
@@ -164,6 +160,9 @@ export default {
 <style>
   .player-bar {
     border: 1px solid darkgray;
+  }
+  .looping-btn {
+    color: green;
   }
   .music-controllers {
     display: flex;

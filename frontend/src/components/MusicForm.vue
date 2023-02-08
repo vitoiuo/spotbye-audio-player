@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn @click="showPopup" color="green">Add Music</v-btn>
+    <v-list-item @click="showPopup" prepend-icon="mdi-music" color="green">Add Music</v-list-item>
     <v-dialog v-model="showForm" @click:outside="cleanForm" max-width="500px">
       <v-card>
         <v-card-title class="headline">Add Music</v-card-title>
