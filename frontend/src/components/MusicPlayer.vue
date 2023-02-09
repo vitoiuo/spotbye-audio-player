@@ -1,5 +1,58 @@
 <template>
-  <v-app-bar class="pa-10">
+  <v-bottom-navigation height="120" fixed>
+    <v-row justify="center" align="center" class="mr-2">
+      <v-col class="d-flex">
+        <v-img
+            contain
+            height="100px"
+            :src="currentSong.cover"
+            style="flex-basis: 125px;"
+        ></v-img>
+        <v-list-item>
+          <v-list-item-title>{{ currentSong.title }}</v-list-item-title>
+          <v-list-item-subtitle>By {{ currentSong.artist }}</v-list-item-subtitle>
+        </v-list-item>
+      </v-col>
+      <v-spacer></v-spacer>
+      <v-col>
+        <v-row justify="center">
+          <v-btn>
+            <v-icon>mdi-dice-3-outline</v-icon>
+          </v-btn>
+          <v-btn @click="handleSongsQueue(-1)"><v-icon>mdi-skip-previous</v-icon></v-btn>
+          <v-btn  @click="toggleMusic"><v-icon>{{ musicToggleIcon }}</v-icon></v-btn>
+          <v-btn @click="handleSongsQueue(1)"><v-icon>mdi-skip-next</v-icon></v-btn>
+          <v-btn :class='{"looping-btn":loop}' @click="loop = !loop"><v-icon>mdi-repeat</v-icon></v-btn>
+        </v-row>
+        <div style="width:500px;">
+          <v-slider hide-details color="green" min="0" max="100" :model-value="progressValue" @update:modelValue="controlProgress">
+            <template #prepend>{{ formattedTime(audioTag?.currentTime ) }}</template>
+            <template #append>{{ formattedTime(audioTag?.duration ) }}</template>
+          </v-slider>
+        </div>
+      </v-col>
+      <v-spacer></v-spacer>
+      <v-col cols="2">
+        <v-row>
+          <!-- <v-select 
+              v-model="selectedSpeed"
+              :items="speeds"
+              :menu-props="{ openOnHover: true }"
+              @update:modelValue="changeSpeed"
+            /> -->
+            <v-btn @click="toggleMute">
+              <v-icon>{{ soundToggleIcon }}</v-icon>
+            </v-btn>
+            <v-slider v-model="volume" vertical @update:modelValue="modifyVolume"></v-slider>
+        </v-row>
+      </v-col>
+    </v-row>
+    <audio ref="audioTag" :loop="loop" @ended="handleSongsQueue(1)" @timeupdate="updateProgress">
+      <source type="audio/mpeg" >
+      Your browser does not support the audio element.
+    </audio>
+  </v-bottom-navigation>
+  <!-- <v-app-bar class="pa-10">
     <v-avatar
           color="primary"
           size="100"
@@ -45,7 +98,7 @@
       </audio>
     </v-row>
     
-</v-app-bar>
+</v-app-bar> -->
 </template>
 
 <script>
@@ -55,7 +108,7 @@ export default {
   props: {
     songs: {
       type: Array,
-      default: []
+      default: () => []
     }
   },
   setup (props, context) {
@@ -124,6 +177,17 @@ export default {
         toggleMusic()
       }
     }
+    function formattedTime (value) {
+      let sec_num = parseInt(value, 10);
+      let hours   = Math.floor(sec_num / 3600);
+      let minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+      let seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+      if (minutes < 10) {minutes = "0"+minutes;}
+      if (seconds < 10) {seconds = "0"+seconds;}
+      return +minutes+':'+seconds;
+    }
+
     onMounted(() => {
       const audio = audioTag.value
       audio.src = '/media/'+currentSong.value.file
@@ -141,7 +205,6 @@ export default {
           selectedSpeed,
           speeds,
           loop,
-          songs,
           queuePosition,
           currentSong,
           hasNextSong,
@@ -152,6 +215,7 @@ export default {
           controlProgress,
           updateProgress,
           handleSongsQueue,
+          formattedTime,
       }
     },
 }
@@ -169,7 +233,7 @@ export default {
     gap: 8px;
   }
   .rotating {
-    animation: rotate 3s linear infinite forwards;
+    animation: rotate 5s linear infinite forwards;
   }
   .paused {
     animation-play-state: paused;

@@ -1,20 +1,20 @@
 <template>
   <div>
-    <v-list-item @click="showPopup" prepend-icon="mdi-music" color="green">Add Music</v-list-item>
-    <v-dialog v-model="showForm" @click:outside="cleanForm" max-width="500px">
+    <v-list-item prepend-icon="mdi-music" color="green" title="Add Music" @click="showPopup" ></v-list-item>
+    <v-dialog v-model="showForm" max-width="500px" @click:outside="cleanForm">
       <v-card>
         <v-card-title class="headline">Add Music</v-card-title>
         <v-card-text>
           <v-form ref="form" v-model="valid">
-            <v-text-field prepend-icon="mdi-format-title" label="Title" v-model="title" :rules="titleRules" />
-            <v-text-field prepend-icon="mdi-account-music" label="Artist" v-model="artist" :rules="artistRules" />
-            <v-text-field prepend-icon="mdi-image-area" label="Music cover" type="url" v-model="musicCover" :rules="imageRules"/>
-            <v-file-input prepend-icon="mdi-soundcloud" label="Music" v-model="music" accept="audio/*" :rules="musicRules" />
+            <v-text-field v-model="title" prepend-icon="mdi-format-title" label="Title" :rules="titleRules" />
+            <v-text-field v-model="artist" prepend-icon="mdi-account-music" label="Artist" :rules="artistRules" />
+            <v-text-field v-model="musicCover" prepend-icon="mdi-image-area" label="Music cover" type="url" :rules="imageRules"/>
+            <v-file-input v-model="music" prepend-icon="mdi-soundcloud" label="Music" accept="audio/*" :rules="musicRules" />
           </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="primary" @click="submit">Submit</v-btn>
+          <v-btn color="green" @click="submit">Submit</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
