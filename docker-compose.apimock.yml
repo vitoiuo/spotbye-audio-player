@@ -10,9 +10,9 @@ services:
   apimock:
     build:
       context: ./apimock
-    image: apimock-audio-player
-    container_name: apimock-audio-player
-    hostname: apimock-audio-player
+    image: apimock-audio_player
+    container_name: apimock-audio_player
+    hostname: apimock-audio_player
     command: npm run apimock:watch
     network_mode: "host"
     expose:

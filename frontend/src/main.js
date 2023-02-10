@@ -18,7 +18,7 @@ const app = createApp(App)
 
 registerPlugins(app)
 
-if (process.env.DEVELOPMENT_MODE === 'mock') {
+if (import.meta.env.MODE === "development" && import.meta.env.VITE_API_MOCK === "true") {
   makeServer()
 }
 

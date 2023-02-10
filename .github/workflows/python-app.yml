@@ -1,4 +1,4 @@
-name: audio-player CI
+name: audio_player CI
 
 on:
   push:

@@ -3,7 +3,7 @@
   "python.formatting.provider": "black",
   "python.pythonPath": "/usr/local/bin/python",
   "python.testing.pytestArgs": [
-    "audio-player"
+    "audio_player"
   ],
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,

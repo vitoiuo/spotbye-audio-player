@@ -1,9 +1,9 @@
 services:
 
   backend:
-    image: back-audio-player
-    hostname: back-audio-player
-    container_name: back-audio-player
+    image: back-audio_player
+    hostname: back-audio_player
+    container_name: back-audio_player
     build:
       context: ./
       dockerfile: Dockerfile
@@ -43,9 +43,9 @@ services:
       context: ./frontend
       args:
         NUXT_PUBLIC_PATH: http://localhost/static/
-    image: front-audio-player
-    hostname: front-audio-player
-    container_name: front-audio-player
+    image: front-audio_player
+    hostname: front-audio_player
+    container_name: front-audio_player
     command: npm run dev
     network_mode: "host"
     expose:
@@ -58,11 +58,11 @@ services:
     depends_on:
       - nginx
     environment:
-      DEVELOPMENT_MODE: "${DEVELOPMENT_MODE}"
+      VITE_API_MOCK: "true"
 
   nginx:
     image: nginx
-    container_name: nginx-audio-player
+    container_name: nginx-audio_player
     network_mode: "host"
     volumes:
       - ./docker/nginx/default_local:/etc/nginx/conf.d/default.conf
