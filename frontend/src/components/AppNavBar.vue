@@ -15,11 +15,22 @@
       <v-divider></v-divider>
 
       <v-list density="compact" nav>
+        <v-list-item
+          prepend-icon="mdi-home-minus-outline"
+          title="Início"
+          :to="{ name:'base-home' }"
+        >
+        </v-list-item>
+        <v-list-item
+          prepend-icon="mdi-magnify"
+          title="Buscar"
+        >
+        </v-list-item>
         <music-form />
         <v-list-item
           prepend-icon="mdi-playlist-plus"
           title="Add playlist"
-          :to="{ name:'add-playlist' }">
+          :to="{ name:'addPlaylist' }">
         </v-list-item>
         <v-list-item
           :prepend-icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"

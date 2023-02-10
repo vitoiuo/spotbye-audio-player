@@ -12,7 +12,6 @@
 
 <script setup>
 import { ref } from "vue"
-import { mapState } from "pinia"
 import { useMusicStore } from "@/stores/musicStore"
 
 const theme = ref("dark")

@@ -7,6 +7,6 @@ htmlcov/
 .idea
 /audio-player.log
 /static
-/uploads
+uploads/
 
 /apimock/node_modules

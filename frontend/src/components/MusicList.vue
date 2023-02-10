@@ -1,5 +1,5 @@
 <template>
-   <div>
+   <div align="start">
     <v-row>
       <h5 class="text-h5 font-weight-bold">Your songs</h5>
       <v-spacer></v-spacer>
@@ -13,7 +13,7 @@
       </v-card>
     </v-row>
 
-    <v-row class="mt-12">
+    <!-- <v-row class="mt-12">
       <v-col class="pa-0">
         <h5 class="text-h5 font-weight-bold mb-1">Made for SageModeBoy</h5>
       </v-col>
@@ -61,7 +61,7 @@
           ></v-rating>
         </v-card-actions>
       </v-card>
-    </v-row>
+    </v-row> -->
   </div>
 </template>
 
@@ -76,64 +76,6 @@ export default {
     const musicStore = useMusicStore()
     const apiMusics = ref([])
     const rating = ref(0)
-    // const musics = [
-    //     {
-    //       id: 1,
-    //       title: 'Shape of You',
-    //       artist: 'Ed Sheeran',
-    //       cover: 'https://www.lance.com.br/files/article_main/uploads/2023/01/19/63c981f97f2aa.jpeg',
-    //       file_path: '/src/assets/shakira.mp3'
-    //     },
-    //     {
-    //       id: 2,
-    //       title: 'Sugar',
-    //       artist: 'Maroon 5',
-    //       cover: 'https://s2.glbimg.com/0vAniTngQ2r8fNIq2p7eT-zvjVE=/0x0:1080x1350/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_e84042ef78cb4708aeebdf1c68c6cbd6/internal_photos/bs/2022/T/b/BTZPHrSBufgvYJsRpayA/shakira-280155891-188638093488887-4569557496906173603-n.jpg',
-    //       file_path: '/src/assets/shakira.mp3'
-    //     },
-    //     {
-    //       id: 3,
-    //       title: 'Uptown Funk',
-    //       artist: 'Mark Ronson ft. Bruno Mars',
-    //       cover: 'https://www.lance.com.br/files/article_main/uploads/2023/01/19/63c981f97f2aa.jpeg',
-    //       file_path: '/src/assets/shakira.mp3'
-    //     },
-    //     {
-    //       id: 4,
-    //       title: 'Shape of You',
-    //       artist: 'Ed Sheeran',
-    //       cover: 'https://s2.glbimg.com/0vAniTngQ2r8fNIq2p7eT-zvjVE=/0x0:1080x1350/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_e84042ef78cb4708aeebdf1c68c6cbd6/internal_photos/bs/2022/T/b/BTZPHrSBufgvYJsRpayA/shakira-280155891-188638093488887-4569557496906173603-n.jpg',
-    //       file_path: '/src/assets/shakira.mp3'
-    //     },
-    //     {
-    //       id: 5,
-    //       title: 'Shape of You',
-    //       artist: 'Ed Sheeran',
-    //       cover: 'https://www.lance.com.br/files/article_main/uploads/2023/01/19/63c981f97f2aa.jpeg',
-    //       file_path: '/src/assets/shakira.mp3'
-    //     },
-    //     {
-    //       id: 6,
-    //       title: 'Shape of You',
-    //       artist: 'Ed Sheeran',
-    //       cover: 'https://www.lance.com.br/files/article_main/uploads/2023/01/19/63c981f97f2aa.jpeg',
-    //       file_path: '/src/assets/shakira.mp3'
-    //     },
-    //     {
-    //       id: 7,
-    //       title: 'Shape of You',
-    //       artist: 'Ed Sheeran',
-    //       cover: 'https://www.lance.com.br/files/article_main/uploads/2023/01/19/63c981f97f2aa.jpeg',
-    //       file_path: '/src/assets/shakira.mp3'
-    //     },
-    //     {
-    //       id: 8,
-    //       title: 'Sugar',
-    //       artist: 'Maroon 5',
-    //       cover: 'https://www.lance.com.br/files/article_main/uploads/2023/01/19/63c981f97f2aa.jpeg',
-    //       file_path: '/src/assets/shakira.mp3'
-    //     },
-    //   ]
 
     async function getAPIMusics () {
       apiMusics.value = await songsApi.getSongs()

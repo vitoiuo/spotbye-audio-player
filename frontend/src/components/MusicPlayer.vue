@@ -16,13 +16,19 @@
       <v-spacer></v-spacer>
       <v-col>
         <v-row justify="center">
-          <v-btn>
+          <v-btn :class='{"randomizer-btn":random}' @click="triggerRandomizer">
             <v-icon>mdi-dice-3-outline</v-icon>
           </v-btn>
           <v-btn @click="handleSongsQueue(-1)"><v-icon>mdi-skip-previous</v-icon></v-btn>
           <v-btn  @click="toggleMusic"><v-icon>{{ musicToggleIcon }}</v-icon></v-btn>
           <v-btn @click="handleSongsQueue(1)"><v-icon>mdi-skip-next</v-icon></v-btn>
           <v-btn :class='{"looping-btn":loop}' @click="loop = !loop"><v-icon>mdi-repeat</v-icon></v-btn>
+          <!-- <v-select 
+              v-model="selectedSpeed"
+              :items="speeds"
+              :menu-props="{ openOnHover: true }"
+              @update:modelValue="changeSpeed"
+            /> -->
         </v-row>
         <div style="width:500px;">
           <v-slider hide-details color="green" min="0" max="100" :model-value="progressValue" @update:modelValue="controlProgress">
@@ -34,75 +40,33 @@
       <v-spacer></v-spacer>
       <v-col cols="2">
         <v-row>
-          <!-- <v-select 
-              v-model="selectedSpeed"
-              :items="speeds"
-              :menu-props="{ openOnHover: true }"
-              @update:modelValue="changeSpeed"
-            /> -->
+            <v-btn :to="{ name:'playingMusics' }">
+              <v-icon>
+                mdi-land-rows-horizontal
+              </v-icon>
+            </v-btn>
             <v-btn @click="toggleMute">
               <v-icon>{{ soundToggleIcon }}</v-icon>
             </v-btn>
-            <v-slider v-model="volume" vertical @update:modelValue="modifyVolume"></v-slider>
+            <v-slider v-model="volume" hide-details min="0" max="100" @update:modelValue="modifyVolume"></v-slider>
         </v-row>
       </v-col>
     </v-row>
-    <audio ref="audioTag" :loop="loop" @ended="handleSongsQueue(1)" @timeupdate="updateProgress">
+    <audio 
+      ref="audioTag"
+      :loop="loop"
+      @ended="handleSongsQueue(1)"
+      @timeupdate="updateProgress"
+      >
       <source type="audio/mpeg" >
       Your browser does not support the audio element.
     </audio>
   </v-bottom-navigation>
-  <!-- <v-app-bar class="pa-10">
-    <v-avatar
-          color="primary"
-          size="100"
-          class="rotating"
-          :class="{'paused':!isPlaying}"
-          tile
-      >
-        <img :src="currentSong.cover" />
-      </v-avatar>
-      <div class="d-flex flex-column ml-4">
-        <span>
-          <span class="title">{{ currentSong.title }}</span>
-        </span>
-        <span class="artist">{{ currentSong.artist }}</span>
-      </div>
-    <v-row class="d-flex justify-center align-center">
-      <v-col cols="6">
-        <div>
-          <v-btn icon @click="handleSongsQueue(-1)"><v-icon>mdi-skip-previous</v-icon></v-btn>
-          <v-btn icon @click="toggleMusic"><v-icon>{{ musicToggleIcon }}</v-icon></v-btn>
-          <v-btn icon @click="handleSongsQueue(1)"><v-icon>mdi-skip-next</v-icon></v-btn>
-        </div>
-      </v-col>
-      <v-col cols="6" class="music-controllers">
-        <v-select 
-          v-model="selectedSpeed"
-          :items="speeds"
-          @update:modelValue="changeSpeed"
-          :menu-props="{ openOnHover: true }"
-        />
-        <v-btn icon @click="loop = !loop" :class='{"looping-btn":loop}'><v-icon>mdi-repeat</v-icon></v-btn>
-        <v-btn icon @click="toggleMute">
-          <v-icon>{{ soundToggleIcon }}</v-icon>
-        </v-btn>
-        <v-slider v-model="volume" @update:modelValue="modifyVolume"></v-slider>
-      </v-col>
-
-       <v-slider color="green" @update:modelValue="controlProgress" :model-value="progressValue"/>
-
-      <audio ref="audioTag" @ended="handleSongsQueue(1)" :loop="loop" @timeupdate="updateProgress">
-        <source type="audio/mpeg" >
-        Your browser does not support the audio element.
-      </audio>
-    </v-row>
-    
-</v-app-bar> -->
 </template>
 
 <script>
 import { ref, onMounted, computed } from 'vue'
+import { useMusicStore } from "@/stores/musicStore"
 
 export default {
   props: {
@@ -111,7 +75,8 @@ export default {
       default: () => []
     }
   },
-  setup (props, context) {
+  setup (props) {
+    const musicStore = useMusicStore()
     const songs = ref(props.songs)
     const queuePosition = ref(0)
     const audioTag = ref(null)
@@ -122,6 +87,7 @@ export default {
     const selectedSpeed = ref(1)
     const speeds = [2, 1.5, 1]
     const loop = ref(false)
+    const random = ref(false)
 
     const musicToggleIcon = computed(() => {
       return isPlaying.value ? "mdi-pause" : "mdi-play"
@@ -134,6 +100,9 @@ export default {
     })
     const hasNextSong = computed(() => {
       return queuePosition.value + 1 < songs.value.length
+    })
+    const hasPreviousSong = computed(() => {
+      return queuePosition.value !== 0
     })
 
     function controlProgress(newValue) {
@@ -167,10 +136,17 @@ export default {
       const audio = audioTag.value
       audio.playbackRate = selectedSpeed.value
     }
+    function triggerRandomizer () {
+      random.value = !random.value
+      if(random.value) musicStore.shuffleRow()
+    }
     function handleSongsQueue (value) {
       const audio = audioTag.value
-      if (value === 1) context.emit("close-player")
-      if (!hasNextSong.value) return isPlaying.value = false
+
+      if ((value === 1 && !hasNextSong.value) || (value === -1 && !hasPreviousSong.value)) {
+         return
+      }
+
       queuePosition.value+=value
       if (currentSong.value) {
         audio.src = '/media/'+currentSong.value.file
@@ -178,6 +154,8 @@ export default {
       }
     }
     function formattedTime (value) {
+      if (!value) return '0:00'
+
       let sec_num = parseInt(value, 10);
       let hours   = Math.floor(sec_num / 3600);
       let minutes = Math.floor((sec_num - (hours * 3600)) / 60);
@@ -188,13 +166,14 @@ export default {
       return +minutes+':'+seconds;
     }
 
-    onMounted(() => {
+    onMounted(() => { 
       const audio = audioTag.value
       audio.src = '/media/'+currentSong.value.file
       toggleMusic()
     })
 
     return {
+          musicStore,
           audioTag,
           volume,
           isPlaying,
@@ -205,15 +184,18 @@ export default {
           selectedSpeed,
           speeds,
           loop,
+          random,
           queuePosition,
           currentSong,
           hasNextSong,
+          hasPreviousSong,
           toggleMute,
           toggleMusic,
           modifyVolume,
           changeSpeed,
           controlProgress,
           updateProgress,
+          triggerRandomizer,
           handleSongsQueue,
           formattedTime,
       }
@@ -225,7 +207,7 @@ export default {
   .player-bar {
     border: 1px solid darkgray;
   }
-  .looping-btn {
+  .looping-btn, .randomizer-btn {
     color: green;
   }
   .music-controllers {

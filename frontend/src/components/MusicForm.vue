@@ -2,7 +2,7 @@
   <div>
     <v-list-item prepend-icon="mdi-music" color="green" title="Add Music" @click="showPopup" ></v-list-item>
     <v-dialog v-model="showForm" max-width="500px" @click:outside="cleanForm">
-      <v-card>
+      <v-card class="pa-5">
         <v-card-title class="headline">Add Music</v-card-title>
         <v-card-text>
           <v-form ref="form" v-model="valid">
