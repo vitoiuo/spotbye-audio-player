@@ -149,7 +149,8 @@ export default {
 
       queuePosition.value+=value
       if (currentSong.value) {
-        audio.src = '/media/'+currentSong.value.file
+        // lembrar do '/media/'
+        audio.src = currentSong.value.file
         toggleMusic()
       }
     }
@@ -166,9 +167,10 @@ export default {
       return +minutes+':'+seconds;
     }
 
-    onMounted(() => { 
+    onMounted(() => {
+      //lembrar do '/media/'
       const audio = audioTag.value
-      audio.src = '/media/'+currentSong.value.file
+      audio.src = currentSong.value.file
       toggleMusic()
     })
 

@@ -19,6 +19,7 @@
     "webfontloader": "^1.0.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@rushstack/eslint-patch": "^1.1.4",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/eslint-config-prettier": "^7.0.0",

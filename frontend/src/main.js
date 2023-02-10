@@ -12,7 +12,7 @@ import { createApp } from "vue"
 
 // Plugins
 import { registerPlugins } from "@/plugins"
-import { makeServer } from "./server"
+import { makeServer } from "./server/server"
 
 const app = createApp(App)
 

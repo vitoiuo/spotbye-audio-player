@@ -58,7 +58,7 @@ services:
     depends_on:
       - nginx
     environment:
-      VITE_API_MOCK: "true"
+      VITE_API_MOCK: ${VITE_API_MOCK:-true}
 
   nginx:
     image: nginx
