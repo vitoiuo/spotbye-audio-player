@@ -1,7 +1,6 @@
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
-
-# from musics.models import Song
+from musics.models import Song
 
 
 @pytest.fixture
@@ -14,14 +13,14 @@ def file(db):
 
 
 def test_list_songs_retur_songs_listl(client, db, file):
-    # content = {
-    #     "title": "Tonylamkins e seus teclados",
-    #     "artist": "Tonylamkins",
-    #     "cover": "url",
-    #     "file": file,
-    # }
+    content = {
+        "title": "Tonylamkins e seus teclados",
+        "artist": "Tonylamkins",
+        "cover": "url",
+        "file": file,
+    }
 
-    # songs = Song.objects.bulk_create([content for i in range(5)])
+    songs = Song.objects.bulk_create([content for i in range(5)])
 
     resp = client.post("/api/musics/list_songs")
     assert resp.status_code == 200

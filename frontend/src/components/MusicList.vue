@@ -15,7 +15,7 @@
 
     <!-- <v-row class="mt-12">
       <v-col class="pa-0">
-        <h5 class="text-h5 font-weight-bold mb-1">Made for SageModeBoy</h5>
+        <h5 class="text-h5 font-weight-bold mb-1">Rate your musics</h5>
       </v-col>
       <v-spacer></v-spacer>
       <span class="caption grey--text mr-2">SEE ALL</span>
@@ -25,6 +25,7 @@
         v-for="music in apiMusics.songs"
         :key="music.title"
         min-width="360"
+        class="mr-5"
       >
         <div class="d-flex justify-between">
           <v-card-title class="flex-grow-1 flex-column align-start">

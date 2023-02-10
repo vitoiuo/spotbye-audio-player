@@ -204,9 +204,6 @@ export default {
 </script>
 
 <style>
-  .player-bar {
-    border: 1px solid darkgray;
-  }
   .looping-btn, .randomizer-btn {
     color: green;
   }
