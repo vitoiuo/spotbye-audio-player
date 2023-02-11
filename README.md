@@ -1,9 +1,18 @@
-<!-- // lembrar de falar do player -->
-
-[Botando o projeto no ar](#)
-
 # Spotbye Audio Player
-#### Feito com uma derivação do template [d-jávue](https://github.com/huogerac/djavue)
+
+1. [Motivação](#motivação)
+2. [Gif demo](#gif-demo)
+3. [Setup do projeto](#setup-do-projeto)
+
+#### Feito com uma derivação do template 
+
+[d-jávue](https://github.com/huogerac/djavue)
+
+<br />
+
+## **Vídeo de apresentação**
+[*Link para o drive*](https://drive.google.com/file/d/1byikT5JzlZO2e8R4kS55_3fAnnEdFGqo/view?usp=sharing)
+
 <br />
 
 ## Motivação
@@ -14,7 +23,7 @@ Embora existam alternativas menos pedantes nos streamings de músicas, que não 
 
 <br />
 
-## Video demo
+## Gif demo
 
 ***ALERTA: o slider do player em alguns momentos apresenta mal funcionamento, mas é completamente randômico. Preciso entender melhor se é culpa do slider do vuetify ou da API de áudio do HTML5***
 
