@@ -1,5 +1,5 @@
 <template>
-  <v-bottom-navigation height="120" fixed>
+  <v-bottom-navigation height="120" style="position: fixed;">
     <v-row justify="center" align="center" class="mr-2">
       <v-col class="d-flex">
         <v-img

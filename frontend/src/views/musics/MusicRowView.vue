@@ -25,7 +25,7 @@
                   width="40px"
                 >
                 </v-btn>
-                <span v-else class="mx-4 text-body">{{ index }}</span>
+                <span v-else class="mx-4 text-body">{{ index+1 }}</span>
               </v-card-actions>
               <v-avatar
                 class="ma-3"

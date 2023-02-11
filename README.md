@@ -16,6 +16,8 @@ Embora existam alternativas menos pedantes nos streamings de músicas, que não 
 
 ## Video demo
 
+***ALERTA: o slider do player em alguns momentos apresenta mal funcionamento, mas é completamente randômico. Preciso entender melhor se é culpa do slider do vuetify ou da API de áudio do HTML5***
+
 <br />
 
 ## Setup do projeto
@@ -24,9 +26,9 @@ Embora existam alternativas menos pedantes nos streamings de músicas, que não 
 
 ### Ambiente de desenvolvimento mockado
 
-Verifique se a variável de ambiente **DEVELOPMENT_MODE** está presente no arquivo *.env*, localizado na raiz do projeto. e setada como *mock*.
+Verifique se a variável de ambiente **VITE_API_MOCK** setada como *true* em *frontend/.env*.
 
-Para rodar a aplicação conectada ao backend, basta omitir essa variável.
+Para rodar a aplicação conectada ao backend, basta setar o valor dessa variável para *false*.
 
 <br />
 

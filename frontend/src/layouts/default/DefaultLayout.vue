@@ -4,8 +4,8 @@
     <app-snackbar />
     <v-app :theme="theme">
       <app-nav-bar :theme="theme" @theme-click="onThemeClick"></app-nav-bar>
-        <RouterView />
-        <music-player v-if="musicRow.length" class="p-5" :songs="musicRow" @close-player="clearSongs"></music-player>
+      <RouterView />
+      <music-player v-if="musicRow.length" class="p-5" :songs="musicRow" @close-player="clearSongs"></music-player>
     </v-app>
   </VLayout>
 </template>

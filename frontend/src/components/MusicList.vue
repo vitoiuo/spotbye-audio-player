@@ -1,15 +1,15 @@
 <template>
-   <div align="start">
+   <div >
     <v-row>
-      <h5 class="text-h5 font-weight-bold">Your songs</h5>
+      <h5 class="text-h5 font-weight-bold ml-5">Your songs</h5>
       <v-spacer></v-spacer>
       <span class="caption grey--text mr-2">SEE ALL</span>
     </v-row>
-    <v-row class="mt-5">
+    <v-row class="mt-10">
       <v-card v-for="music in apiMusics.songs" :key="music.title" rounded class="shadow-on-hover ma-2" @click="musicChoosed(music)">
         <v-img :src="music.cover" height="145" width="145" class="mx-4 mt-4"></v-img>
-        <v-card-title>{{music.title}}</v-card-title>
-        <v-card-subtitle class="mb-6">{{music.artist}}</v-card-subtitle>
+        <v-card-title>{{ reduceTitle(music.title) }}</v-card-title>
+        <v-card-subtitle class="mb-6">{{ music.artist }}</v-card-subtitle>
       </v-card>
     </v-row>
 
@@ -91,8 +91,14 @@ export default {
   methods: {
     musicChoosed(newMusic) {
       this.musicStore.setMusicInRow(newMusic)
+    },
+    reduceTitle (title) {
+      if (title.length <= 15) {
+        return title
+      }
+      return title.slice(0,13)+'...'
     }
-  }
+  },
 }
 </script>
 
