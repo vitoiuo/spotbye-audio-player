@@ -26,7 +26,8 @@ def test_list_songs_retur_songs_listl(client, db, file):
 
 
 def test_add_song_create_a_song(client, db, file):
-    data = (
+    resp = client.post(
+        "/api/musics/add_song",
         {
             "title": "We are the djavue",
             "artist": "Tonylampkins",
@@ -34,6 +35,4 @@ def test_add_song_create_a_song(client, db, file):
             "file": file,
         },
     )
-
-    resp = client.post("/api/musics/add_song", data)
-    assert resp.json() == data
+    assert resp.json() == Song.objects.get(title="We are the djavue").to_dict_json()

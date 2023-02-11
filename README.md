@@ -1,8 +1,9 @@
 # Spotbye Audio Player
 
-1. [Motivação](#motivação)
-2. [Gif demo](#gif-demo)
-3. [Setup do projeto](#setup-do-projeto)
+* [Motivação](#motivação)
+* [Gif demo](#gif-demo)
+* [Tecnologias utilizadas](#tecnologias-utilizadas)
+* [Setup do projeto](#setup-do-projeto)
 
 #### Feito com uma derivação do template 
 
@@ -26,6 +27,20 @@ Embora existam alternativas menos pedantes nos streamings de músicas, que não 
 ## Gif demo
 
 ***ALERTA: o slider do player em alguns momentos apresenta mal funcionamento, mas é completamente randômico. Preciso entender melhor se é culpa do slider do vuetify ou da API de áudio do HTML5***
+
+![Live demo](./readme_assets/spotbye.gif)
+
+<br />
+
+## Tecnologias utilizadas
+
+- VueJs 3
+- Vite
+- Vuetify 3
+- MirageJs
+- Docker
+- Nginx
+- Django
 
 <br />
 
