@@ -51,14 +51,12 @@ services:
     expose:
       - "3000"
     env_file:
-      - .env
+      - frontend/.env
     volumes:
       - /frontend/node_modules
       - ./frontend:/frontend
     depends_on:
       - nginx
-    environment:
-      VITE_API_MOCK: ${VITE_API_MOCK:-true}
 
   nginx:
     image: nginx
