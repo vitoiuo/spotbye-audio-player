@@ -1,13 +1,13 @@
 # Spotbye Audio Player
 
+#### Feito com uma derivação do template 
+
+[d-jávue](https://github.com/huogerac/djavue)
+
 * [Motivação](#motivação)
 * [Gif demo](#gif-demo)
 * [Tecnologias utilizadas](#tecnologias-utilizadas)
 * [Setup do projeto](#setup-do-projeto)
-
-#### Feito com uma derivação do template 
-
-[d-jávue](https://github.com/huogerac/djavue)
 
 <br />
 
@@ -34,27 +34,18 @@ Embora existam alternativas menos pedantes nos streamings de músicas, que não 
 
 ## Tecnologias utilizadas
 
-- VueJs 3
-- Vite
-- Vuetify 3
-- MirageJs
-- Docker
-- Nginx
-- Django
+* [VueJs 3](https://vuejs.org/)
+* [Vite](https://vitejs.dev/)
+* [Vuetify 3](https://next.vuetifyjs.com/en/getting-started/installation/)
+* [MirageJs](https://miragejs.com/)
+* [Docker](https://www.docker.com/)
+* [Nginx](https://www.nginx.com/)
+* [Django](https://www.djangoproject.com/)
 
 <br />
 
 ## Setup do projeto
 
-<br />
-
-### Ambiente de desenvolvimento mockado
-
-Verifique se a variável de ambiente **VITE_API_MOCK** setada como *true* em *frontend/.env*.
-
-Para rodar a aplicação conectada ao backend, basta setar o valor dessa variável para *false*.
-
-<br />
 
 ### Botando o projeto no ar
 
@@ -64,4 +55,12 @@ docker compose build
 docker compose up -d
 ```
 
-Feito isso, no seu navegador acesse http://localhost/
+Feito isso, no seu navegador acesse o [loopback da sua máquina](http://localhost/)
+
+<br />
+
+### Ambiente de desenvolvimento mockado
+
+Verifique se a variável de ambiente **VITE_API_MOCK** setada como *true* em *frontend/.env*.
+
+Para rodar a aplicação conectada ao backend, basta setar o valor dessa variável para *false*.
