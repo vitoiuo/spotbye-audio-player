@@ -25,7 +25,7 @@
             block
             size="large"
             rounded="pill"
-            color="primary"
+            color="green"
             append-icon="mdi-chevron-right"
             @click="login">
             Login
@@ -35,10 +35,10 @@
             block
             size="large"
             rounded="pill"
-            color="primary"
+            color="green"
             variant="outlined"
-            :to="{ name: 'base-home' }">
-            Início
+            :to="{ name: 'accounts-cadastrar' }">
+            Criar Usuário
           </v-btn>
         </v-form>
       </v-col>
@@ -76,7 +76,7 @@ export default {
     AccountsApi.whoami().then((response) => {
       if (response.authenticated) {
         this.saveLoggedUser(response.user)
-        this.appStore.showSnackbar("Usuário já logado", "warning")
+        this.appStore.showSnackbar("Usuário já logado", "danger")
         this.showTasks()
       }
     })
@@ -86,6 +86,7 @@ export default {
       this.loading = true
       AccountsApi.login(this.username, this.password)
         .then((response) => {
+          debugger
           if (!response) {
             this.appStore.showSnackbar("Usuário ou senha invalida", "danger")
             return
@@ -102,12 +103,10 @@ export default {
       if (user) {
         this.accountsStore.setLoggedUser(user)
         this.visible = false
-        console.log("logged")
       }
     },
     showTasks() {
-      this.$router.push({ name: "tasks-list" })
-      console.log("--> tasks")
+      this.$router.push({ name: "base-home" })
     },
   },
 }

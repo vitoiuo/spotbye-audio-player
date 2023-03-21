@@ -49,7 +49,7 @@ export default {
         .then(() => {
           this.accountsStore.clearLoggedUser()
           this.appStore.showSnackbar("Sessão encerrada!", "warning")
-          this.$router.push({ name: "base-home" })
+          this.$router.push({ name: "accounts-login" })
         })
         .finally(() => {
           this.loading = false
