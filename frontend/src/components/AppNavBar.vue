@@ -25,6 +25,12 @@
           title="Buscar"
         >
         </v-list-item>
+        <v-list-item
+          prepend-icon="mdi-heart"
+          title="Favoritos"
+          :to="{ name:'favoritos' }"
+        >
+        </v-list-item>
         <music-form />
         <v-list-item
           prepend-icon="mdi-playlist-plus"

@@ -17,3 +17,8 @@ def add_song(request):
 def list_songs(request):
     songs = song_svc.list_songs()
     return JsonResponse({"songs": songs})
+
+
+def like(request):
+    id = request.GET.get("id")
+    song_svc.like(id)

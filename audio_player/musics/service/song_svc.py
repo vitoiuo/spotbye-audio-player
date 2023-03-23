@@ -16,3 +16,9 @@ def list_songs():
     songs = Song.objects.all()
 
     return [song.to_dict_json() for song in songs]
+
+
+def like(id):
+    song = Song.objects.get(id=id)
+    song.heart = False if song.heart else True
+    song.save()
