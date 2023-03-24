@@ -25,6 +25,12 @@
           title="Buscar"
         >
         </v-list-item>
+        <v-list-item
+          prepend-icon="mdi-heart"
+          title="Favoritos"
+          :to="{ name:'favoritos' }"
+        >
+        </v-list-item>
         <music-form />
         <v-list-item
           prepend-icon="mdi-playlist-plus"
@@ -36,12 +42,19 @@
           title="Change theme"
           @click.stop="themeClick">
         </v-list-item>
+        <v-list-item
+          :prepend-icon="theme === 'light' ? 'mdi-account-arrow-left' : 'mdi-account-arrow-left-outline'"
+          title="Logout"
+          :to="{name:'accounts-logout'}"
+          @click.stop="logout">
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 </template>
 
 <script>
 import MusicForm from "@/components/MusicForm.vue"
+import LogoutView from "@/views/accounts/LogoutView.vue";
 
 export default {
   components: {

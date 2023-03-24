@@ -1,19 +1,19 @@
 <template>
-  <v-container>
+  <v-container class="mt-8">
     <v-row align="start" no-gutters style="height: 150px">
       <v-col cols="12">
         <v-card class="text-center">
-          <v-card-title class="headline"> Bye Bye </v-card-title>
+          <v-card-title class="headline"> Tchauzinho  </v-card-title>
           <v-card-text>
-            <h2>Finalizar sessão?</h2>
+            <h2>Deseja realmente finalizar a sessão?</h2>
             <p class="ma-4">
-              <v-btn :loading="loading" color="primary" class="mr-4" x-large block @click="logout">
+              <v-btn :loading="loading" color="green" class="mr-4" x-large block @click="logout">
                 SIM
               </v-btn>
               <v-btn
                 class="my-2"
                 block
-                color="primary"
+                color="green"
                 variant="outlined"
                 :to="{ name: 'base-home' }">
                 Início
@@ -49,7 +49,7 @@ export default {
         .then(() => {
           this.accountsStore.clearLoggedUser()
           this.appStore.showSnackbar("Sessão encerrada!", "warning")
-          this.$router.push({ name: "base-home" })
+          this.$router.push({ name: "accounts-login" })
         })
         .finally(() => {
           this.loading = false

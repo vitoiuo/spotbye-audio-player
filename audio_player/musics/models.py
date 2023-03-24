@@ -6,6 +6,7 @@ class Song(models.Model):
     artist = models.CharField(max_length=100)
     cover = models.URLField(max_length=200)
     file = models.FileField(null=True, blank=True)
+    heart = models.BooleanField(default=False)
 
     def to_dict_json(self):
         return {
@@ -14,6 +15,7 @@ class Song(models.Model):
             "artist": self.artist,
             "cover": self.cover,
             "file": self.file.name,
+            "heart": self.heart,
         }
 
 

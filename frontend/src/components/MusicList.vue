@@ -10,6 +10,7 @@
         <v-img :src="music.cover" height="145" width="145" class="mx-4 mt-4"></v-img>
         <v-card-title>{{ reduceTitle(music.title) }}</v-card-title>
         <v-card-subtitle class="mb-6">{{ music.artist }}</v-card-subtitle>
+        <v-btn density="comfortable" @click="music.heart= !music.heart" icon  :color="music.heart ? 'green' : 'white'" ><v-icon>mdi-heart</v-icon></v-btn>
       </v-card>
     </v-row>
 
@@ -73,6 +74,11 @@ import songsApi from "@/api/songs.api.js"
 
 
 export default {
+  data() {
+    return{
+      heart : ''
+    }
+  },
   setup () {
     const musicStore = useMusicStore()
     const apiMusics = ref([])
